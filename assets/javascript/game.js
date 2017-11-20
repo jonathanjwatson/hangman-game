@@ -1,16 +1,14 @@
 var wordBank = ["Apple", "Orange", "Banana", "Peach", "Apricot", "Pineapple"]
 var playersGuessedLetter = ""
 var wordToGuess = "madonna"
-wordToGuess = wordToGuess.split("")
 var answerArray = [];
+var wrongLetters = [];
 
 var selectAWord = () => {
     var number = Math.floor(Math.random() * wordBank.length);
-    console.log(number);
     wordToGuess = wordBank[number];
-    console.log(wordToGuess)
     wordToGuess = wordToGuess.toLowerCase();
-    console.log(wordToGuess)
+    wordToGuess = wordToGuess.split("")
 }
 
 var fillTheAnswerArray = () => {
@@ -37,33 +35,37 @@ var checkForWin = () => {
     wordToGuessJoined = wordToGuess.join("");
     answerArrayJoined = answerArray.join("");
     if (wordToGuessJoined === answerArrayJoined){
-        alert("You figured it out!")
+        alert(`You figured it out! The word was: ${wordToGuessJoined}`)
     }
+    if (wrongLetters.length > 7) {
+        alert(`You lost! The word was: ${wordToGuessJoined}`);
+    }
+}
+
+
+document.onkeyup = function(e) {
+    typedLetter = e.key.toLowerCase();
+    var letterExists = false;
+    for (var i = 0; i < wordToGuess.length; i++) {
+        if (typedLetter === wordToGuess[i]) {
+            answerArray[i] = typedLetter;
+            letterExists = true;
+            updateSpecificLetter(i, typedLetter);
+        }
+    }
+    if (!letterExists) {
+        wrongLetters.push(typedLetter);
+        $("#wrong-letters").append(` ${typedLetter} `)
+    }
+    checkForWin();
 }
 
 $(document).ready(function() {
     // console.log("Document is ready")
-    // selectAWord();
+    selectAWord();
     fillTheAnswerArray();
     createTheAnswerHTML();
     
 })
-
-document.onkeyup = function(e) {
-    // console.log(e);
-    typedLetter = e.key.toLowerCase();
-    console.log(typedLetter)
-    for (var i = 0; i < wordToGuess.length; i++) {
-        if (typedLetter === wordToGuess[i]) {
-            answerArray[i] = typedLetter;
-            console.log(typedLetter)
-            console.log(answerArray);
-            updateSpecificLetter(i, typedLetter);
-        }
-    }
-    checkForWin();
-
-    
-}
 
 
