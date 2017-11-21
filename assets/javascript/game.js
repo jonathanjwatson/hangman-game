@@ -1,6 +1,6 @@
 var wordBank = ["Apple", "Orange", "Banana", "Peach", "Apricot", "Pineapple"]
 var playersGuessedLetter = ""
-var wordToGuess = "madonna"
+var wordToGuess = ""
 var answerArray = [];
 var wrongLetters = [];
 
@@ -8,7 +8,11 @@ var selectAWord = () => {
     var number = Math.floor(Math.random() * wordBank.length);
     wordToGuess = wordBank[number];
     wordToGuess = wordToGuess.toLowerCase();
+    // console.log("Before Split")
+    // console.log(wordToGuess)
     wordToGuess = wordToGuess.split("")
+    // console.log("After Split")
+    // console.log(wordToGuess);
 }
 
 var fillTheAnswerArray = () => {
@@ -23,7 +27,7 @@ var createTheAnswerHTML = () => {
         htmlToDisplay += `<span id=${i}> ${answerArray[i]} </span>`
     }
     $("#word").append(htmlToDisplay);
-    htmlToDisplay = "";
+    // htmlToDisplay = "";
 }
 
 var updateSpecificLetter = (number, correctLetter) => {
@@ -43,7 +47,7 @@ var checkForWin = () => {
 }
 
 
-document.onkeyup = function(e) {
+$(document).onkeyup = function(e) {
     typedLetter = e.key.toLowerCase();
     var letterExists = false;
     for (var i = 0; i < wordToGuess.length; i++) {
